@@ -1,0 +1,55 @@
+def menu():
+
+    while True:
+        print("1) Gérer les livres")
+        print("2) Gérer les utilisateurs")
+        print("3) Gérer les emprunts")
+        print("4) Sauvegarder / Charger les données")
+        print("5) Visualiser les statistiques")
+        print("0) Quitter")
+
+        choix1=input("Que voulez-faire ?")
+
+        match choix1:
+
+            case "1":
+                nouvel_etudiant()
+
+            case "2":
+                suppr_etu()
+
+            case "3":
+                modifier_notes()
+
+            case "4":
+                while True:
+
+                 print("1) Afficher la moyenne d'un étudiant")
+                 print("2) Afficher la moyenne par matière")
+                 print("3) Afficher les étudiants avec une moyenne superieure à 15")
+                 print("0) Retour")
+                 choix2=input("Que voulez-faire ?")
+
+                 match choix2:
+
+                     case "1":
+                         moyenne_etu()
+                     case "2":
+                         moyenne_matiere()
+                     case "3":
+                         moy_sup_15()
+                     case "0":
+                         break
+
+            case "5":
+                rapport_global()
+
+            case "0":
+                print("Au revoir")
+                break
+
+            case _:
+                print("Choix invalide")
+
+menu()
+
