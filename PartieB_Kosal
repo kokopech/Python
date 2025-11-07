@@ -13,13 +13,13 @@ def menu():
         match choix1:
 
             case "1":
-                nouvel_etudiant()
+                (mettre fonction pour gérer livres)
 
             case "2":
-                suppr_etu()
+                (mettre fonction pour gérer utilisateurs)
 
             case "3":
-                modifier_notes()
+                (mettre fonction pour gérer les emprunts)
 
             case "4":
                 while True:
