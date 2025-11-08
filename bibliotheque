@@ -1,0 +1,84 @@
+from livre import Livre
+from datetime import datetime
+
+class Bibliotheque:
+
+    def __init__(self):
+        self.livres = []
+
+    def ajouter(self, livre):
+        self.livres.append(livre)
+        print(f"Le livre '{livre.titre}' a bien été ajouté")
+
+    def supprimer(self, id_livre):
+        for livre in self.livres:
+            if livre.ID == id_livre:
+                self.livres.remove(livre)
+                print(f"Le livre '{livre.titre}' a bien été supprimé")
+                return
+        print(f"Livre ID {id_livre} non trouvé")
+
+    def modifier(self, id_livre, nouveau_titre=None, nouvel_auteur=None, nouvelle_categorie=None, nouveau_nbr=None,
+                 nouveau_statut=None):
+        for livre in self.livres:
+            if livre.ID == id_livre:
+                if nouveau_titre:
+                    livre.titre = nouveau_titre
+                if nouvel_auteur:
+                    livre.auteur = nouvel_auteur
+                if nouvelle_categorie:
+                    livre.categorie = nouvelle_categorie
+                if nouveau_nbr is not None:
+                    livre.nbr_exemplaire_disp = nouveau_nbr
+                if nouveau_statut is not None:
+                    livre.statut = nouveau_statut
+
+                print(f"Le livre ID {id_livre} a été modifié")
+                return
+        print(f"Livre ID {id_livre} non trouvé")
+
+    def afficher(self):
+        if not self.livres:
+            print("La bibliothèque est vide")
+            return
+
+        for livre in self.livres:
+            print(livre)
+
+    def recherche(self, mot):
+        resultats = []
+
+        for livre in self.livres:
+            if (str(livre.ID) == mot or
+                    mot.lower() in livre.titre.lower() or
+                    mot.lower() in livre.auteur.lower() or
+                    mot.lower() in livre.categorie.lower()):
+                resultats.append(livre)
+
+        if resultats:
+            for livre in resultats:
+                print(livre)
+        else:
+            print("Aucun résultat trouvé")
+
+        return resultats
+
+    def emprunter(self, titre_livre):
+        for livre in self.livres:
+            if livre.titre.lower() == titre_livre.lower():
+                if livre.nbr_exemplaire_disp > 0:
+                    livre.nbr_exemplaire_disp -= 1
+                    print(f"Un exemplaire de '{livre.titre}' a été emprunté. Restant: {livre.nbr_exemplaire_disp}\n")
+                    print(f"jour de l'emprunt{datetime.now()}")
+                else:
+                    print(f"Plus d'exemplaires disponibles pour '{livre.titre}'")
+                return
+        print(f"Livre '{titre_livre}' non trouvé")
+
+    def retourner(self, titre_livre):
+        for livre in self.livres:
+            if livre.titre.lower() == titre_livre.lower():
+                livre.nbr_exemplaire_disp += 1
+                print(f"Un exemplaire de '{livre.titre}' a été retourné. Disponible: {livre.nbr_exemplaire_disp}")
+                return
+        print(f"Livre '{titre_livre}' non trouvé")
