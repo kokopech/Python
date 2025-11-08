@@ -1,0 +1,13 @@
+class Livre:
+    """Représente un livre individuel"""
+    def __init__(self, ID, titre, auteur, categorie, nbr_exemplaire_disp, statut):
+        self.ID = ID
+        self.titre = titre
+        self.auteur = auteur
+        self.categorie = categorie
+        self.nbr_exemplaire_disp = nbr_exemplaire_disp
+        self.statut = statut
+
+    def __str__(self):
+        """Affichage formaté d'un livre"""
+        return f"ID: {self.ID}, Titre: {self.titre}, Auteur: {self.auteur}, Catégorie: {self.categorie}, Dispo: {self.nbr_exemplaire_disp}, Statut: {self.statut}"
