@@ -1,26 +1,25 @@
-from livre import Livre
-from datetime import datetime
-
 class Bibliotheque:
 
     def __init__(self):
-        self.livres = []
+        self.__livres = []  # Attribut privé
+        self.__utilisateurs = {}  # Attribut privé
 
-    def ajouter(self, livre):
-        self.livres.append(livre)
-        print(f"Le livre '{livre.titre}' a bien été ajouté")
+    #GETTERS pour accès en lecture seule
+    @property
+    def livres(self):
+        return self.__livres.copy()
 
-    def supprimer(self, id_livre):
-        for livre in self.livres:
-            if livre.ID == id_livre:
-                self.livres.remove(livre)
-                print(f"Le livre '{livre.titre}' a bien été supprimé")
-                return
-        print(f"Livre ID {id_livre} non trouvé")
+    @property
+    def utilisateurs(self):
+        return self.__utilisateurs.copy()
 
-    def modifier(self, id_livre, nouveau_titre=None, nouvel_auteur=None, nouvelle_categorie=None, nouveau_nbr=None,
-                 nouveau_statut=None):
-        for livre in self.livres:
+    # MÉTHODES INTERNES PROTÉGÉES (appelées uniquement par Bibliothécaire)
+    def _ajouter_livre_interne(self, livre):
+        self.__livres.append(livre)
+
+    def _modifier_livre_interne(self, id_livre, nouveau_titre=None, nouvel_auteur=None,
+                                nouvelle_categorie=None, nouveau_statut=None):
+        for livre in self.__livres:
             if livre.ID == id_livre:
                 if nouveau_titre:
                     livre.titre = nouveau_titre
@@ -28,27 +27,37 @@ class Bibliotheque:
                     livre.auteur = nouvel_auteur
                 if nouvelle_categorie:
                     livre.categorie = nouvelle_categorie
-                if nouveau_nbr is not None:
-                    livre.nbr_exemplaire_disp = nouveau_nbr
                 if nouveau_statut is not None:
                     livre.statut = nouveau_statut
-
-                print(f"Le livre ID {id_livre} a été modifié")
-                return
+                return True
         print(f"Livre ID {id_livre} non trouvé")
+        return False
 
+    def _supprimer_livre_interne(self, id_livre):
+        for livre in self.__livres:
+            if livre.ID == id_livre:
+                self.__livres.remove(livre)
+                return True
+        print(f"Livre ID {id_livre} non trouvé")
+        return False
+
+    # === MÉTHODES PUBLIQUES (consultation uniquement) ===
     def afficher(self):
-        if not self.livres:
+        """Affiche tous les livres (lecture seule)"""
+        if not self.__livres:
             print("La bibliothèque est vide")
             return
 
-        for livre in self.livres:
+        print("\n--- Liste des livres ---")
+        for livre in self.__livres:
             print(livre)
 
     def recherche(self, mot):
+        """Recherche un livre par mot-clé (lecture seule)"""
+        print(f"\n--- Recherche de '{mot}' ---")
         resultats = []
 
-        for livre in self.livres:
+        for livre in self.__livres:
             if (str(livre.ID) == mot or
                     mot.lower() in livre.titre.lower() or
                     mot.lower() in livre.auteur.lower() or
@@ -63,22 +72,43 @@ class Bibliotheque:
 
         return resultats
 
-    def emprunter(self, titre_livre):
-        for livre in self.livres:
-            if livre.titre.lower() == titre_livre.lower():
-                if livre.nbr_exemplaire_disp > 0:
-                    livre.nbr_exemplaire_disp -= 1
-                    print(f"Un exemplaire de '{livre.titre}' a été emprunté. Restant: {livre.nbr_exemplaire_disp}\n")
-                    print(f"jour de l'emprunt{datetime.now()}")
-                else:
-                    print(f"Plus d'exemplaires disponibles pour '{livre.titre}'")
-                return
-        print(f"Livre '{titre_livre}' non trouvé")
+    def obtenir_livre_par_id(self, id_livre):
+        for livre in self.__livres:
+            if livre.ID == id_livre:
+                return livre
+        return None
 
-    def retourner(self, titre_livre):
-        for livre in self.livres:
-            if livre.titre.lower() == titre_livre.lower():
-                livre.nbr_exemplaire_disp += 1
-                print(f"Un exemplaire de '{livre.titre}' a été retourné. Disponible: {livre.nbr_exemplaire_disp}")
-                return
-        print(f"Livre '{titre_livre}' non trouvé")
+    # === GESTION DES UTILISATEURS ===
+    def ajouter_utilisateur(self, utilisateur):
+        self.__utilisateurs[utilisateur.id] = utilisateur
+        print(f"Utilisateur '{utilisateur.nom_complet}' ajouté (ID: {utilisateur.id})")
+
+    def supprimer_utilisateur(self, id_utilisateur):
+        if id_utilisateur in self.__utilisateurs:
+            user = self.__utilisateurs.pop(id_utilisateur)
+            print(f"Utilisateur '{user.nom_complet}' supprimé")
+        else:
+            print(f"Utilisateur ID {id_utilisateur} non trouvé")
+
+    def modifier_utilisateur(self, id_utilisateur, nouveau_nom=None, nouvel_email=None):
+        if id_utilisateur in self.__utilisateurs:
+            user = self.__utilisateurs[id_utilisateur]
+            if nouveau_nom:
+                user.nom_complet = nouveau_nom  # Utilise le setter avec validation
+            if nouvel_email:
+                user.email = nouvel_email  # Utilise le setter avec validation
+            print(f"Utilisateur ID {id_utilisateur} modifié")
+        else:
+            print(f"Utilisateur ID {id_utilisateur} non trouvé")
+
+    def afficher_utilisateurs(self):
+        if not self.__utilisateurs:
+            print("Aucun utilisateur enregistré")
+            return
+
+        print("\n--- Liste des utilisateurs ---")
+        for user in self.__utilisateurs.values():
+            print(user)
+
+    def rechercher_utilisateur(self, id_utilisateur):
+        return self.__utilisateurs.get(id_utilisateur)
