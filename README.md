@@ -8,14 +8,21 @@ Ce projet consiste a crée un système de gestion d'une bibliothèque, cela perm
 - Avoir une sauvegarde des données ainsi qu'un chargement 
 - Une visualisation des statistiques par le biais de graphiques
 
+## 1. Contenu du projet
+
+Ce projet est composé de plusieurs fichié Python :
+
+### 1.1 `menu.py`
+
 Deux types d’utilisateurs existent :
 
 - Bibliothécaire : qui gére les livres 
 - Lecteur : qui emprunte ou rend des livres et peuvent consulter leurs emprunts
 
-## 1. Fonctionnalités principales
 
-### 1.1 Une gestion des livres (réservée aux bibliothécaires) qui permet :
+## 2. Fonctionnalités principales
+
+### 2.1 Une gestion des livres (réservée aux bibliothécaires) qui permet :
 - Ajouter un livre
 - Modifier un livre
 - Supprimer un livre
@@ -31,7 +38,7 @@ Chaque livre possède :
 - un statut d'emprunt (Disponible ou Indisponible)
 
 
-### 1.2 Une gestion des utilisateurs
+### 2.2 Une gestion des utilisateurs
 
 Opérations disponibles :
 - Ajouter un utilisateur (Lecteur ou Bibliothécaire)
@@ -42,7 +49,7 @@ Opérations disponibles :
 
 
 
-### 1.3 Une gestion des emprunts (réservée aux lecteurs)
+### 2.3 Une gestion des emprunts (réservée aux lecteurs)
 Un lecteur peut :
 - emprunter un livre 
 - rendre un livre
@@ -55,7 +62,7 @@ Lors d’un emprunt :
 
 
 
-### 1.4 Une Sauvegarde et Chargement des données
+### 2.4 Une Sauvegarde et Chargement des données
 Les données peuvent être enregistrées et rechargées en :
 - JSON
 - CSV
@@ -66,7 +73,7 @@ Contenu sauvegardé :
 
 Au chargement, les objets sont reconstruits automatiquement
 
-### 1.5 Statistiques
+### 2.5 Statistiques
 Avec `statistiques.py`, le programme génère :
 - Des graphiques sur les livres
 - Des statistiques sur les utilisateurs  
@@ -77,7 +84,7 @@ Afin d'utiliser les statistiques, il faut d'abord sauvegarder en CSV
 
 
 
-## 2. Installation
+## 3. Installation
 
 ### Bibliothèques importées
   - json
