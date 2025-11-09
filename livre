@@ -9,7 +9,7 @@ class Livre:
         self.__categorie = categorie  # Attribut privé
         self.__nbr_exemplaire_disp = nbr_exemplaire_disp  # Attribut privé
         self.__statut = statut  # Attribut privé (disponible/emprunté)
-
+    #Les getters
     @property
     def ID(self):
         return self.__id
@@ -34,7 +34,7 @@ class Livre:
     def statut(self):
         return self.__statut
 
-    # === SETTERS (modification avec validation) ===
+    #Les setters
     @titre.setter
     def titre(self, nouveau_titre):
         if len(nouveau_titre) >= 1:
@@ -72,7 +72,7 @@ class Livre:
     def statut(self, nouveau_statut):
         self.__statut = nouveau_statut
 
-    # === MÉTHODES PUBLIQUES ===
+    #Autre méthode
     def est_disponible(self):
         return self.__nbr_exemplaire_disp > 0
 
