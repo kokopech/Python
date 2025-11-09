@@ -25,16 +25,16 @@ def menu():
                 try :
                     id_utilisateur = int(input("ID de l'utilisateur : "))
                 except ValueError:
-                    print("ID invalide. Saisir un autre ID (nombre entier)")
+                    print("ID invalide, saisir un autre ID (nombre entier)")
                     continue
 
                 bibliothecaire = bibliotheque.rechercher_utilisateur(id_utilisateur)
                 if not bibliothecaire:
-                    print("Utilisateur introuvable.")
+                    print("Utilisateur introuvable")
                     continue
 
                 if bibliothecaire.type_utilisateur.lower() != "bibliothecaire":
-                    print("Accès refusé : Seuls les bibliothécaires peuvent gérer les livres.")
+                    print("Accès refusé : Seuls les bibliothécaires peuvent gérer les livres")
                     continue
 
                 while True:
@@ -61,7 +61,7 @@ def menu():
                             try :
                                 id_livre = int(input("ID du livre à modifier : "))
                             except ValueError:
-                                print("ID invalide. Saisir un autre ID (nombre entier)")
+                                print("ID invalide, saisir un autre ID (nombre entier)")
                                 continue
 
                             livre = None  # Variable vide au départ car on ne sait pas si le livre existe
@@ -412,7 +412,7 @@ def menu():
                             break
 
                         case _:
-                            print("Choix invalide.")
+                            print("Choix invalide")
 
 
             case "5":
