@@ -1,10 +1,10 @@
-class Bibliotheque:
+class Bibliotheque:#c'est la classe principale ou toutes les information sur les livres et les utilisateur sont utiliiser
 
     def __init__(self):
         self.__livres = []  # Attribut privé
         self.__utilisateurs = {}  # Attribut privé
 
-    #GETTERS pour accès en lecture seule
+    #Les getters
     @property
     def livres(self):
         return self.__livres.copy()
@@ -13,15 +13,15 @@ class Bibliotheque:
     def utilisateurs(self):
         return self.__utilisateurs.copy()
 
-    # MÉTHODES INTERNES PROTÉGÉES (appelées uniquement par Bibliothécaire)
+    #Méthodes internes
     def _ajouter_livre_interne(self, livre):
-        self.__livres.append(livre)
+        self.__livres.append(livre)#ajouter les information du livre dans la liste
 
     def _modifier_livre_interne(self, id_livre, nouveau_titre=None, nouvel_auteur=None,
                                 nouvelle_categorie=None, nouveau_statut=None):
         for livre in self.__livres:
             if livre.ID == id_livre:
-                if nouveau_titre:
+                if nouveau_titre:#on cherche si l'information a changer est le titre,l'auteur,la catégorie ou le satut
                     livre.titre = nouveau_titre
                 if nouvel_auteur:
                     livre.auteur = nouvel_auteur
@@ -36,32 +36,25 @@ class Bibliotheque:
     def _supprimer_livre_interne(self, id_livre):
         for livre in self.__livres:
             if livre.ID == id_livre:
-                self.__livres.remove(livre)
+                self.__livres.remove(livre)#enlever le livre de la liste
                 return True
-        print(f"Livre ID {id_livre} non trouvé")
+        print(f"Livre ID {id_livre} non trouvé")#mettre une condition si il ne se passe rien alors le livre n'as pas été trouvé
         return False
 
-    # === MÉTHODES PUBLIQUES (consultation uniquement) ===
+    #Méthodes publiques
     def afficher(self):
-        """Affiche tous les livres (lecture seule)"""
         if not self.__livres:
             print("La bibliothèque est vide")
             return
 
-        print("\n--- Liste des livres ---")
         for livre in self.__livres:
             print(livre)
 
     def recherche(self, mot):
-        """Recherche un livre par mot-clé (lecture seule)"""
-        print(f"\n--- Recherche de '{mot}' ---")
         resultats = []
 
         for livre in self.__livres:
-            if (str(livre.ID) == mot or
-                    mot.lower() in livre.titre.lower() or
-                    mot.lower() in livre.auteur.lower() or
-                    mot.lower() in livre.categorie.lower()):
+            if mot.lower() in livre.statut.lower() or mot.lower() in livre.titre.lower() or mot.lower() in livre.auteur.lower() or mot.lower() in livre.categorie.lower():#rechercher si le mot en les comparant avec tous les titres, les auteurs , les catégories ou les statuts de la liste
                 resultats.append(livre)
 
         if resultats:
@@ -72,20 +65,14 @@ class Bibliotheque:
 
         return resultats
 
-    def obtenir_livre_par_id(self, id_livre):
-        for livre in self.__livres:
-            if livre.ID == id_livre:
-                return livre
-        return None
-
-    # === GESTION DES UTILISATEURS ===
+    #fonction sur les utilisateurs
     def ajouter_utilisateur(self, utilisateur):
-        self.__utilisateurs[utilisateur.id] = utilisateur
+        self.__utilisateurs[utilisateur.id] = utilisateur#ajouter l'utilisateur dans le dictionnaire
         print(f"Utilisateur '{utilisateur.nom_complet}' ajouté (ID: {utilisateur.id})")
 
     def supprimer_utilisateur(self, id_utilisateur):
         if id_utilisateur in self.__utilisateurs:
-            user = self.__utilisateurs.pop(id_utilisateur)
+            user = self.__utilisateurs.pop(id_utilisateur)#supprimer l'utilisateur dans le dictionnaire
             print(f"Utilisateur '{user.nom_complet}' supprimé")
         else:
             print(f"Utilisateur ID {id_utilisateur} non trouvé")
@@ -94,9 +81,9 @@ class Bibliotheque:
         if id_utilisateur in self.__utilisateurs:
             user = self.__utilisateurs[id_utilisateur]
             if nouveau_nom:
-                user.nom_complet = nouveau_nom  # Utilise le setter avec validation
+                user.nom_complet = nouveau_nom  # Utilise le setter
             if nouvel_email:
-                user.email = nouvel_email  # Utilise le setter avec validation
+                user.email = nouvel_email  # Utilise le setter
             print(f"Utilisateur ID {id_utilisateur} modifié")
         else:
             print(f"Utilisateur ID {id_utilisateur} non trouvé")
@@ -106,8 +93,7 @@ class Bibliotheque:
             print("Aucun utilisateur enregistré")
             return
 
-        print("\n--- Liste des utilisateurs ---")
-        for user in self.__utilisateurs.values():
+        for user in self.__utilisateurs.values():#créer une boucle pour afficher chaque index de la liste
             print(user)
 
     def rechercher_utilisateur(self, id_utilisateur):
