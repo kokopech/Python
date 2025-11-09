@@ -11,7 +11,7 @@ Ce projet consiste a crée un système de gestion d'une bibliothèque, cela perm
 Deux types d’utilisateurs existent :
 
 - Bibliothécaire : qui gére les livres 
-- Lecteur : qui emprunte ou rende des livres et peuvent consulter leurs emprunts
+- Lecteur : qui emprunte ou rend des livres et peuvent consulter leurs emprunts
 
 ## 1. Fonctionnalités principales
 
@@ -40,7 +40,7 @@ Opérations disponibles :
 - Afficher tous les utilisateurs
 - Rechercher un utilisateur
 
----
+
 
 ### Une gestion des emprunts (réservée aux lecteurs)
 Un lecteur peut :
@@ -53,7 +53,7 @@ Lors d’un emprunt :
 - la liste d’emprunts du lecteur est mise à jour  
 - l’inventaire de la bibliothèque est mis à jour
 
----
+
 
 ### Une Sauvegarde et Chargement des données
 Les données peuvent être enregistrées et rechargées en :
@@ -75,7 +75,7 @@ Les graphiques sont enregistrés dans le dossier `/figures`.
 
 Afin d'utiliser les statistiques, il faut d'abord sauvegarder en CSV
 
----
+
 
 ## 2. Installation
 
