@@ -5,12 +5,14 @@ class Utilisateur:
     compteur_id = 1
 
     def __init__(self, nom_complet, email, type_utilisateur):
-        self.__id = Utilisateur.compteur_id
-        Utilisateur.compteur_id += 1
-        self.__nom_complet = nom_complet
-        self.__email = email
-        self.__type_utilisateur = type_utilisateur
+        self.__id = Utilisateur.compteur_id#Attribut privé
+        Utilisateur.compteur_id += 1#auto-incrementation
+        self.__nom_complet = nom_complet#Attribut privé
+        self.__email = email#Attribut privé
+        self.__type_utilisateur = type_utilisateur#Attribut privé
 
+
+    #Les getters
     @property
     def id(self):
         return self.__id
@@ -27,6 +29,8 @@ class Utilisateur:
     def type_utilisateur(self):
         return self.__type_utilisateur
 
+
+    #Les setters
     @nom_complet.setter
     def nom_complet(self, nouveau_nom):
         if len(nouveau_nom) >= 3:
@@ -45,23 +49,24 @@ class Utilisateur:
         return f"ID: {self.__id}, Nom: {self.__nom_complet}, Email: {self.__email}, Type: {self.__type_utilisateur}"
 
     def _a_les_droits_bibliothecaire(self):
-        return self.__type_utilisateur == "Bibliothécaire"
+        return self.__type_utilisateur == "Bibliothécaire"# donner l'autorisation au bibliothécaire de modifier la bibliotheque
 
 
 class Lecteur(Utilisateur):
 
     def __init__(self, nom_complet, email):
         super().__init__(nom_complet, email, "Lecteur")
-        self.__livres_empruntes = {}
+        self.__livres_empruntes = {}#créer un dictionnaire pour stocker les id des livres emprunté et la date d'emprunt
 
+    #Getter
     @property
     def livres_empruntes(self):
         return self.__livres_empruntes.copy()
 
     def emprunter_livre(self, livre):
-        if livre.est_disponible():
-            livre.nbr_exemplaire_disp = livre.nbr_exemplaire_disp - 1
-            self.__livres_empruntes[livre.ID] = datetime.now()
+        if livre.est_disponible():#regarder si il y a des exemplaire du livre
+            livre.nbr_exemplaire_disp = livre.nbr_exemplaire_disp - 1 # enlever un exemplaire pour le livre mis en argumment
+            self.__livres_empruntes[livre.ID] = datetime.now() #donner la date de l'emprunt
             print(f"{self.nom_complet} a emprunté '{livre.titre}'")
             return True
         else:
@@ -70,12 +75,12 @@ class Lecteur(Utilisateur):
 
     def rendre_livre(self, livre):
         if livre.ID in self.__livres_empruntes:
-            livre.nbr_exemplaire_disp = livre.nbr_exemplaire_disp + 1
+            livre.nbr_exemplaire_disp = livre.nbr_exemplaire_disp + 1 # ajouter un exemplaire pour le livre mis en argumment
             date_emprunt = self.__livres_empruntes[livre.ID]
-            jours_emprunt = (datetime.now()-date_emprunt)
+            jours_emprunt = (datetime.now()-date_emprunt)# calcule pour avoir le temps de l'emprunt
 
 
-            del self.__livres_empruntes[livre.ID]
+            del self.__livres_empruntes[livre.ID]#supprimer l'emprunt de la liste
             print(f"{self.nom_complet} a rendu '{livre.titre}' après {jours_emprunt} jours")
             return True
         else:
@@ -83,10 +88,10 @@ class Lecteur(Utilisateur):
             return False
 
     def afficher_emprunts(self):
-        if not self.__livres_empruntes:
+        if not self.__livres_empruntes:#verifier s'il y a des emprunts dans le dictionnaire
             print(f"{self.nom_complet} n'a aucun livre emprunté")
         else:
-            for livre_id, date_emprunt in self.__livres_empruntes.items():
+            for livre_id, date_emprunt in self.__livres_empruntes.items():#faire une boucle pour rcuperer chaque id des livres et les date d'emprunt dans le dictionnaire
                 print(f"Livre ID {livre_id} emprunté le {date_emprunt}")
 
 
@@ -96,11 +101,11 @@ class Bibliothecaire(Utilisateur):
         super().__init__(nom_complet, email, "Bibliothécaire")
 
     def ajouter_livre(self, bibliotheque, livre):
-        if not self._a_les_droits_bibliothecaire():
+        if not self._a_les_droits_bibliothecaire():#regarder si il n'a pas les droits d'un bibliothecaire
             print("Action refusée : droits insuffisants")
             return False
 
-        bibliotheque._ajouter_livre_interne(livre)
+        bibliotheque._ajouter_livre_interne(livre)#fonction qui permet d'ajouter le livre dans la bibliotheque
         print(f"{self.nom_complet} (bibliothécaire) a ajouté le livre '{livre.titre}'")
         return True
 
@@ -109,8 +114,7 @@ class Bibliothecaire(Utilisateur):
         if not self._a_les_droits_bibliothecaire():
             print("Action refusée : droits insuffisants")
             return False
-
-        if nouveau_titre:
+        if nouveau_titre:#regarde si le l'information a mofidier est un titre un auteur une categorie ou un nombre d'exemplaire
             livre.titre = nouveau_titre
         if nouvel_auteur:
             livre.auteur = nouvel_auteur
@@ -127,6 +131,6 @@ class Bibliothecaire(Utilisateur):
             print("Action refusée : droits insuffisants")
             return False
 
-        bibliotheque._supprimer_livre_interne(id_livre)
+        bibliotheque._supprimer_livre_interne(id_livre)#fonction qui permet de supprimmer le livre dans la bibliotheque
         print(f"{self.nom_complet} (bibliothécaire) a supprimé le livre ID {id_livre}")
         return True
