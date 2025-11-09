@@ -351,7 +351,7 @@ def menu():
 
                         case "3":
                             if not sauvegarde:
-                                print("Choisissez d’abord JSON ou CSV (1 ou 2).")
+                                print("Choisissez d’abord JSON ou CSV (1 ou 2)")
                                 continue
 
                             livres_dicts = []
