@@ -14,6 +14,29 @@ Ce projet est composé de plusieurs fichié Python :
 
 ### 1.1 `menu.py`
 
+C'est le fichier à exécuter pour lancer le programme, il gère l'interaction avec l'utilisateur en affichant les différents menus
+
+### 1.2 `livre.py`
+
+Il contient la classe `Livre` qui représente chaque livre de la bibliothèque.  
+
+### 1.3 `utilisateur.py`
+
+Il contient les classes liées aux utilisateurs
+
+### 1.4 `bibliotheque.py`
+
+Il gère toute la logique de la bibliothèque 
+
+### 1.5 `Sauvegarde.py`
+
+Il permet de conserver les données entre deux utilisations du programme.
+
+### 1.6 `statistiques.py`
+
+Il génère des statistiques et des graphiques concernant la bibliothèque 
+
+
 Deux types d’utilisateurs existent :
 
 - Bibliothécaire : qui gére les livres 
@@ -30,7 +53,7 @@ Deux types d’utilisateurs existent :
 - Rechercher les livre (par titre, auteur ou catégorie)
 
 Chaque livre possède :
-- un ID unique
+- un ID unique généré automatiquement
 - un titre
 - un auteur
 - une catégorie
