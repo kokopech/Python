@@ -15,7 +15,7 @@ Deux types d’utilisateurs existent :
 
 ## 1. Fonctionnalités principales
 
-### Une gestion des livres (réservée aux bibliothécaires) qui permet :
+### 1.1 Une gestion des livres (réservée aux bibliothécaires) qui permet :
 - Ajouter un livre
 - Modifier un livre
 - Supprimer un livre
@@ -31,7 +31,7 @@ Chaque livre possède :
 - un statut d'emprunt (Disponible ou Indisponible)
 
 
-### Une gestion des utilisateurs
+### 1.2 Une gestion des utilisateurs
 
 Opérations disponibles :
 - Ajouter un utilisateur (Lecteur ou Bibliothécaire)
@@ -42,20 +42,20 @@ Opérations disponibles :
 
 
 
-### Une gestion des emprunts (réservée aux lecteurs)
+### 1.3 Une gestion des emprunts (réservée aux lecteurs)
 Un lecteur peut :
 - emprunter un livre 
 - rendre un livre
 - consulter la liste de ses emprunts
 
 Lors d’un emprunt :
-- le livre passe en indisponible si plus aucun exemplaire  
+- le livre passe en indisponible si plus aucun exemplaire est disponible
 - la liste d’emprunts du lecteur est mise à jour  
 - l’inventaire de la bibliothèque est mis à jour
 
 
 
-### Une Sauvegarde et Chargement des données
+### 1.4 Une Sauvegarde et Chargement des données
 Les données peuvent être enregistrées et rechargées en :
 - JSON
 - CSV
@@ -66,7 +66,7 @@ Contenu sauvegardé :
 
 Au chargement, les objets sont reconstruits automatiquement
 
-### Statistiques
+### 1.5 Statistiques
 Avec `statistiques.py`, le programme génère :
 - Des graphiques sur les livres
 - Des statistiques sur les utilisateurs  
