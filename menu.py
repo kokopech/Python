@@ -1,7 +1,7 @@
 from livre import Livre
 from utilisateur import Lecteur, Bibliothecaire
 from bibliotheque import Bibliotheque
-from Sauvegarde import Sauvegarde
+from sauvegarde import Sauvegarde
 from statistiques import generer_statistiques
 
 
@@ -10,19 +10,20 @@ def menu():
     bibliotheque = Bibliotheque()
 
     while True:
-        print("1) Gérer les livres")
-        print("2) Gérer les utilisateurs")
-        print("3) Gérer les emprunts")
-        print("4) Sauvegarder / Charger les données")
+        print("\n=== MENU PRINCIPAL ===")
+        print("1) Gerer les livres")
+        print("2) Gerer les utilisateurs")
+        print("3) Gerer les emprunts")
+        print("4) Sauvegarder / Charger les donnees")
         print("5) Visualiser les statistiques")
         print("0) Quitter")
 
-        choix1=input("Que voulez-faire ?")
+        choix1 = input("Que voulez-vous faire ? ")
 
         match choix1:
 
             case "1":
-                try :
+                try:
                     id_utilisateur = int(input("ID de l'utilisateur : "))
                 except ValueError:
                     print("ID invalide, saisir un autre ID (nombre entier)")
@@ -34,57 +35,60 @@ def menu():
                     continue
 
                 if bibliothecaire.type_utilisateur.lower() != "bibliothecaire":
-                    print("Accès refusé : Seuls les bibliothécaires peuvent gérer les livres")
+                    print("Acces refuse : Seuls les bibliothecaires peuvent gerer les livres")
                     continue
 
                 while True:
+                    print("\n=== GESTION DES LIVRES ===")
                     print("1) Ajouter un livre")
                     print("2) Modifier un livre")
                     print("3) Supprimer un livre")
                     print("4) Afficher les livres")
                     print("5) Rechercher un livre")
                     print("0) Retour")
-                    choix2=input("Que voulez-faire ?")
+                    choix2 = input("Que voulez-vous faire ? ")
 
                     match choix2:
 
                         case "1":
                             titre = input("Titre du livre : ")
                             auteur = input("Auteur du livre : ")
-                            categorie = input("Catégorie du livre : ")
-                            nb_ex = int(input("Nombre d'exemplaires du livre : "))
+                            categorie = input("Categorie du livre : ")
+                            try:
+                                nb_ex = int(input("Nombre d'exemplaires du livre : "))
+                            except ValueError:
+                                print("Nombre invalide")
+                                continue
                             livre = Livre(titre, auteur, categorie, nb_ex)
                             bibliothecaire.ajouter_livre(bibliotheque, livre)
 
                         case "2":
-
-                            try :
-                                id_livre = int(input("ID du livre à modifier : "))
+                            try:
+                                id_livre = int(input("ID du livre a modifier : "))
                             except ValueError:
                                 print("ID invalide, saisir un autre ID (nombre entier)")
                                 continue
 
-                            livre = None  # Variable vide au départ car on ne sait pas si le livre existe
-                            for l in bibliotheque.livres: # on parcourt chaque livre de la bibliotheque
+                            livre = None
+                            for l in bibliotheque.livres:
                                 if l.ID == id_livre:
-                                    livre = l  # on sauvegarde le livre trouvé dans la variable livre
+                                    livre = l
                                     break
-
 
                             if livre is None:
                                 print("Le livre est introuvable")
                                 continue
 
-                            print("Livre trouvé :", livre)
+                            print("Livre trouve :", livre)
                             print("Saisir les nouvelles informations (Vide si pas de modification):")
-                            nouveau_titre = input("Nouveau titre : ").strip() or None #strip au cas ou il y a des espaces et None si on veut pas modifier
+                            nouveau_titre = input("Nouveau titre : ").strip() or None
                             nouvel_auteur = input("Nouvel auteur : ").strip() or None
-                            nouvelle_cat = input("Nouvelle catégorie : ").strip() or None
+                            nouvelle_cat = input("Nouvelle categorie : ").strip() or None
                             nb_str = input("Nouveau nombre d'exemplaires : ").strip()
                             try:
                                 nouveau_nbr = int(nb_str) if nb_str else None
                             except ValueError:
-                                print("Valeur du stock invalide, pas de moficiation")
+                                print("Valeur du stock invalide, pas de modification")
                                 nouveau_nbr = None
 
                             bibliothecaire.modifier_livre(
@@ -94,45 +98,46 @@ def menu():
                                 nouvelle_categorie=nouvelle_cat,
                                 nouveau_nbr=nouveau_nbr
                             )
-                            print("Livre modifié !")
+                            print("Livre modifie !")
 
                         case "3":
-
-                            try :
-                                id_livre = int(input("ID du livre à supprimer : "))
+                            try:
+                                id_livre = int(input("ID du livre a supprimer : "))
                             except ValueError:
                                 print("ID invalide. Saisir un autre ID (nombre entier)")
                                 continue
 
-                            livre = None  # Variable vide au départ car on ne sait pas si le livre existe
-                            for l in bibliotheque.livres: # on parcourt chaque livre de la bibliotheque
+                            livre = None
+                            for l in bibliotheque.livres:
                                 if l.ID == id_livre:
-                                    livre = l  # on sauvegarde le livre trouvé dans la variable livre
+                                    livre = l
                                     break
-
 
                             if livre is None:
                                 print("Le livre est introuvable")
                                 continue
 
-                            print("Livre trouvé :", livre)
-                            print("Voulez-vous supprimer ce livre ? : (1 pour confirmer, 0 pour annuler")
-                            c=int(input("Votre choix : "))
-                            if c == 1 :
+                            print("Livre trouve :", livre)
+                            print("Voulez-vous supprimer ce livre ? (1 pour confirmer, 0 pour annuler)")
+                            try:
+                                c = int(input("Votre choix : "))
+                            except ValueError:
+                                print("Choix invalide")
+                                continue
+                            if c == 1:
                                 bibliothecaire.supprimer_livre(bibliotheque, id_livre)
-                                print("Livre supprimé !")
-                            elif c == 0 :
-                                print("Suppresion annulée !")
+                                print("Livre supprime !")
+                            elif c == 0:
+                                print("Suppression annulee !")
 
                         case "4":
-
                             if len(bibliotheque.livres) == 0:
-                                print("Aucun livre présent dans la bibliothèque.")
+                                print("Aucun livre present dans la bibliotheque.")
                             else:
                                 bibliotheque.afficher()
 
                         case "5":
-                            mot = input("Entrer un mot (titre, auteur ou catégorie) : ")
+                            mot = input("Entrer un mot (titre, auteur ou categorie) : ")
                             if mot.strip() == "":
                                 print("Recherche vide, saisissez un mot.")
                             else:
@@ -144,27 +149,26 @@ def menu():
                         case _:
                             print("Choix invalide")
 
-
-
             case "2":
                 while True:
+                    print("\n=== GESTION DES UTILISATEURS ===")
                     print("1) Ajouter un utilisateur")
                     print("2) Modifier un utilisateur")
                     print("3) Supprimer un utilisateur")
-                    print("4) Afficher les utilisateur")
+                    print("4) Afficher les utilisateurs")
                     print("5) Rechercher un utilisateur")
                     print("0) Retour")
-                    choix2=input("Que voulez-faire ?")
+                    choix2 = input("Que voulez-vous faire ? ")
 
                     match choix2:
 
                         case "1":
-                            nom = input("Nom complet de  l'utilisateur : ")
+                            nom = input("Nom complet de l'utilisateur : ")
                             email = input("Email de l'utilisateur : ")
-                            type = input("Lecteur ou Bibliothecaire : ").strip().lower()
-                            if type == "lecteur":
+                            type_user = input("Lecteur ou Bibliothecaire : ").strip().lower()
+                            if type_user == "lecteur":
                                 utilisateur = Lecteur(nom, email)
-                            elif type == "bibliothecaire":
+                            elif type_user == "bibliothecaire":
                                 utilisateur = Bibliothecaire(nom, email)
                             else:
                                 print("Type invalide. Tape 'lecteur' ou 'bibliothecaire'.")
@@ -172,84 +176,76 @@ def menu():
 
                             bibliotheque.ajouter_utilisateur(utilisateur)
 
-
                         case "2":
-
-                            try :
-                                id_utilisateur = int(input("ID de l'utilisateur à modifier : "))
+                            try:
+                                id_utilisateur = int(input("ID de l'utilisateur a modifier : "))
                             except ValueError:
                                 print("ID invalide. Saisir un autre ID (nombre entier)")
                                 continue
 
                             utilisateur = bibliotheque.rechercher_utilisateur(id_utilisateur)
                             if not utilisateur:
-                                print("Utilisateur introuvable ")
+                                print("Utilisateur introuvable")
                                 continue
 
-                            print("Utilisateur trouvé :", utilisateur)
+                            print("Utilisateur trouve :", utilisateur)
                             print("Saisir les nouvelles informations (Vide si pas de modification):")
-                            nouveau_nom = input("Nouveau Nom complet : ").strip() or None #strip au cas ou il y a des espaces et None si on veut pas modifier
+                            nouveau_nom = input("Nouveau Nom complet : ").strip() or None
                             nouvel_email = input("Nouvel email : ").strip() or None
 
                             bibliotheque.modifier_utilisateur(id_utilisateur, nouveau_nom, nouvel_email)
-
-                            print("Utilisateur modifié !")
+                            print("Utilisateur modifie !")
 
                         case "3":
-
-                            try :
-                                id_utilisateur = int(input("ID de l'utilisateur à modifier : "))
+                            try:
+                                id_utilisateur = int(input("ID de l'utilisateur a supprimer : "))
                             except ValueError:
                                 print("ID invalide. Saisir un autre ID (nombre entier)")
                                 continue
 
                             utilisateur = bibliotheque.rechercher_utilisateur(id_utilisateur)
                             if not utilisateur:
-                                print("Utilisateur introuvable ")
+                                print("Utilisateur introuvable")
                                 continue
 
-                            print("Utilisateur trouvé :", utilisateur)
-
-                            print("Voulez-vous supprimer cet utilisateur ? : (1 pour confirmer, 0 pour annuler")
+                            print("Utilisateur trouve :", utilisateur)
+                            print("Voulez-vous supprimer cet utilisateur ? (1 pour confirmer, 0 pour annuler)")
 
                             try:
-                                c=int(input("Votre choix : "))
+                                c = int(input("Votre choix : "))
                             except ValueError:
-                                print("ID invalide. Saisir un autre ID (nombre entier)")
+                                print("Choix invalide")
                                 continue
-                            if c == 1 :
+                            if c == 1:
                                 bibliotheque.supprimer_utilisateur(id_utilisateur)
-                                print("Utilisateur supprimé !")
-                            elif c == 0 :
-                                print("Suppresion annulée !")
-                            else :
+                                print("Utilisateur supprime !")
+                            elif c == 0:
+                                print("Suppression annulee !")
+                            else:
                                 print("Choix invalide")
 
                         case "4":
-
-                                bibliotheque.afficher_utilisateurs()
+                            bibliotheque.afficher_utilisateurs()
 
                         case "5":
-                            try :
+                            try:
                                 id_utilisateur = int(input("ID de l'utilisateur : "))
                             except ValueError:
                                 print("ID invalide. Saisir un autre ID (nombre entier)")
                                 continue
 
-                            utilisateur=bibliotheque.rechercher_utilisateur(id_utilisateur)
+                            utilisateur = bibliotheque.rechercher_utilisateur(id_utilisateur)
 
                             if not utilisateur:
-                                print("Utilisateur introuvable .")
+                                print("Utilisateur introuvable.")
                             else:
-                                print("Utilisateur trouvé :", utilisateur)
+                                print("Utilisateur trouve :", utilisateur)
 
                         case "0":
                             break
 
                         case _:
                             print("Choix invalide")
-
-
 
             case "3":
                 try:
@@ -264,25 +260,25 @@ def menu():
                     continue
 
                 if utilisateur.type_utilisateur.lower() != "lecteur":
-                    print("Il faut être lecteur pour emprunter ou rendre des livres")
+                    print("Il faut etre lecteur pour emprunter ou rendre des livres")
                     continue
 
                 while True:
+                    print("\n=== GESTION DES EMPRUNTS ===")
                     print("1) Emprunter un livre")
                     print("2) Rendre un livre")
                     print("3) Voir mes emprunts")
                     print("0) Retour")
-                    choix2 = input("Que voulez-faire ? : ")
+                    choix2 = input("Que voulez-vous faire ? ")
 
                     match choix2:
 
                         case "1":
                             try:
-                                id_livre = int(input("ID du livre à emprunter : "))
+                                id_livre = int(input("ID du livre a emprunter : "))
                             except ValueError:
                                 print("ID invalide. Saisir un autre ID (nombre entier)")
                                 continue
-
 
                             livre = None
                             for l in bibliotheque.livres:
@@ -298,12 +294,11 @@ def menu():
 
                         case "2":
                             try:
-                                id_livre = int(input("ID du livre à rendre : "))
+                                id_livre = int(input("ID du livre a rendre : "))
                             except ValueError:
                                 print("ID invalide. Saisir un autre ID (nombre entier)")
                                 continue
 
-                            # Recherche du livre
                             livre = None
                             for l in bibliotheque.livres:
                                 if l.ID == id_livre:
@@ -324,12 +319,12 @@ def menu():
                         case _:
                             print("Choix invalide")
 
-
             case "4":
                 format_selectionne = None
                 sauvegarde = None
 
                 while True:
+                    print("\n=== SAUVEGARDE / CHARGEMENT ===")
                     print("1) Choisir JSON")
                     print("2) Choisir CSV")
                     print("3) Sauvegarder")
@@ -342,16 +337,16 @@ def menu():
                         case "1":
                             format_selectionne = "json"
                             sauvegarde = Sauvegarde(format_fichier="json")
-                            print("Format JSON sélectionné.")
+                            print("Format JSON selectionne.")
 
                         case "2":
                             format_selectionne = "csv"
                             sauvegarde = Sauvegarde(format_fichier="csv")
-                            print("Format CSV sélectionné.")
+                            print("Format CSV selectionne.")
 
                         case "3":
                             if not sauvegarde:
-                                print("Choisissez d’abord JSON ou CSV (1 ou 2)")
+                                print("Choisissez d'abord JSON ou CSV (1 ou 2)")
                                 continue
 
                             livres_dicts = []
@@ -375,11 +370,11 @@ def menu():
                                 })
 
                             sauvegarde.sauvegarder(livres_dicts, utilisateurs_dicts)
-                            print("Sauvegardé !")
+                            print("Sauvegarde effectuee !")
 
                         case "4":
                             if not sauvegarde:
-                                print("Choisissez d’abord JSON ou CSV (1 ou 2).")
+                                print("Choisissez d'abord JSON ou CSV (1 ou 2).")
                                 continue
 
                             data = sauvegarde.charger()
@@ -406,7 +401,7 @@ def menu():
                                     user = Bibliothecaire(nom, email)
                                 bibliotheque.ajouter_utilisateur(user)
 
-                            print("Chargement fait !")
+                            print("Chargement effectue !")
 
                         case "0":
                             break
@@ -414,9 +409,8 @@ def menu():
                         case _:
                             print("Choix invalide")
 
-
             case "5":
-                print("Génération des statistiques")
+                print("Generation des statistiques...")
                 generer_statistiques()
 
             case "0":
@@ -426,4 +420,6 @@ def menu():
             case _:
                 print("Choix invalide")
 
-menu()
+
+if __name__ == "__main__":
+    menu()
