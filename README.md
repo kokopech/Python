@@ -1,7 +1,7 @@
 # Projet Python
 
 
-Ce projet consiste a crée un système de gestion d'une bibliothèque, cela permit ainsi de gérer :
+Ce projet consiste a crée un système de gestion d'une bibliothèque, cela permet ainsi de gérer :
 - Les livres  
 - Les utilisateurs  
 - Les emprunts  
