@@ -71,7 +71,7 @@ Avec `statistiques.py`, le programme génère :
 - Des graphiques sur les livres
 - Des statistiques sur les utilisateurs  
 
-Les graphiques sont enregistrés dans le dossier `/figures`.
+Les graphiques sont enregistrés dans le dossier `/figures`
 
 Afin d'utiliser les statistiques, il faut d'abord sauvegarder en CSV
 
